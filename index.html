@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+  <!-- Include Bootstrap for styling -->
+  <title>QrCode Generator</title>
+  <style src="sweetalert.min.js"></style>
+  <link rel="stylesheet" type="text/css" href="dist/sweetalert.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link rel="icon" href="http://djm.pt/assets/favicon.ico" type="image/x-icon">
+  <link rel="shortcut" href="http://djm.pt/assets/favicon.ico">
+  
+  <style>
+    body{
+      background-image: url('https://cdn.pixabay.com/photo/2016/03/26/13/09/workspace-1280538_960_720.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      margin: 5px;
+    }    
+    .qr-code {
+      max-width: 1000px;
+      margin: 10px;
+    }
+    .logo{
+      max-width: 150px;
+      margin-bottom: 50px;
+      margin-top: -10px;
+    }
+  </style>
+</head>
+  
+<body>
+    <div class="container-fluid">
+        <div class="text-sm-left">      
+          <img src="https://chart.googleapis.com/chart?cht=qr&chl=djm.pt&chs=200x200&chld=L|0"class="logo img-thumbnail img-responsive" />    
+        </div>
+        <div class="row">            
+          <div class="col-12 text-center">
+            <img src="https://chart.googleapis.com/chart?cht=qr&chl=djm.pt&chs=200x200&chld=L|0"
+            class="qr-code img-thumbnail img-responsive" />
+          </div>
+          <div class="col-sm-10 text-center text-sm-left" style="margin: 20px;">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="content" style="color: white">
+                        Conteúdo:
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" size="60" 
+                            maxlength="60" class="form-control"
+                            id="content" placeholder="Introduza o link" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-12">
+                            <button type="button" class="btn btn-primary" style="min-width: 120px;" id="generate">
+                              Gerar
+                            </button>                           
+                        </div>
+                    </div>
+              </div>
+          </div>      
+        </div>
+    </div>
+  <script src=
+    "https://code.jquery.com/jquery-3.5.1.js">
+  </script>
+  
+  <script>
+    // Function to HTML encode the text
+    // This creates a new hidden element,
+    // inserts the given text into it 
+    // and outputs it out as HTML
+    function htmlEncode(value) {
+      return $('<div/>').text(value)
+        .html();
+    }
+  
+    $(function () {
+  
+      // Specify an onclick function
+      // for the generate button
+      $('#generate').click(function () {
+  
+        // Generate the link that would be
+        // used to generate the QR Code
+        // with the given data
+
+        let finalURL ='https://chart.googleapis.com/chart?cht=qr&chl='+htmlEncode($('#content').val())+'&chs=200x200&chld=L|0'
+
+        // Replace the src of the image with
+        // the QR code image
+        $('.qr-code').attr('src', finalURL);
+        $('.logo').attr('src', finalURL);
+
+        // Replace the src of the image with
+        // the QR code image
+        var a = $("<a>")
+        .attr("href", "https://chart.googleapis.com/chart?cht=qr&chl="+htmlEncode($("#content").val())+"&chs=500x500&chld=L|0")
+        .attr("download", "djmqrcode.png")
+        .attr("target","_blank")
+        .appendTo("body");
+
+        a[0].click();
+
+        a.remove();
+
+      });      
+      
+    });
+  </script>
+</body>
+  
+</html>
